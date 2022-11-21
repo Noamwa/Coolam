@@ -1,15 +1,10 @@
-type ElementHash = string;
-
-class SocialData {
-    likes: number;
-
-    constructor ({ likes }: { likes: number }) {
-        this.likes = likes;
+import Reaction from './reaction.model';
+export default class ElementSocialData {
+    reactions: Array<Reaction>;
+    
+    constructor (reactions: Array<Reaction>) {
+        this.reactions = reactions;
     }
 }
 
-export {
-    ElementHash
-}
-
-export default SocialData;
+export type ElementHash = string;
