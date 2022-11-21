@@ -1,6 +1,6 @@
 import { ReactionCode } from './enums/reactionCode';
 
-export default class Reaction {
+export default class ElementReaction {
     reactionCode: ReactionCode;
     quantity: number;
 

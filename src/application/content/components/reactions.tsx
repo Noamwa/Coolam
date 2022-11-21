@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import Reaction from '../../../domain/socialData/reaction.model';
+import ElementReaction from '../../../domain/socialData/elementReaction.model';
 
-interface ReactionsProps {
-    reactionsData: Array<Reaction>
+interface ElementReactionsProps {
+    reactionsData: Array<ElementReaction>
 }
 
-const Reactions: FC<ReactionsProps> = ({ reactionsData }) => {
+const ElementReactions: FC<ElementReactionsProps> = ({ reactionsData }) => {
 
     return (
         <div>
@@ -14,4 +14,4 @@ const Reactions: FC<ReactionsProps> = ({ reactionsData }) => {
     );
 }
 
-export default Reactions;
+export default ElementReactions;

@@ -1,4 +1,4 @@
-import Reaction from './reaction.model';
+import Reaction from './elementReaction.model';
 export default class ElementSocialData {
     reactions: Array<Reaction>;
     

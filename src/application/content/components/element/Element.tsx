@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import ElementSocialData from '../../../../domain/socialData/socialData.model'; // TODO :: common models package
 import useHover from './useHover';
-import Reactions from '../reactions';
+import ElementReactions from '../reactions';
 
 interface WrappedElementProps {
   socialData: ElementSocialData | undefined,
@@ -16,7 +16,7 @@ const WrappedElement: FC<WrappedElementProps> = ({ element, socialData }) => {
 
   const activeWrap = (
     <div className='coolamElement'>
-      <Reactions reactionsData={socialData?.reactions || []}/>
+      <ElementReactions reactionsData={socialData?.reactions || []}/>
     </div>
   );
 
