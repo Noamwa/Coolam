@@ -9,7 +9,6 @@ interface WrappedElementProps {
   element: Element
 }
 
-// TODO :: implement reactions bar
 const WrappedElement: FC<WrappedElementProps> = ({ element, socialData }) => {
 
   const isActive  = useHover(element);
