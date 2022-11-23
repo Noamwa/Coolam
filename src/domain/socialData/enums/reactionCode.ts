@@ -1,3 +1,4 @@
 export enum ReactionCode {
-    Like
+    Like,
+    Dislike
 }

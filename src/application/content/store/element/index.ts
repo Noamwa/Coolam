@@ -1,5 +1,5 @@
 import { Reducer, Action, Dispatch, createStore } from 'redux';
-import { ActionType } from './enums/actionType'
+import { ActionType } from '../enums/actionType'
 
 const initialState: ElementState = {
     element: null,

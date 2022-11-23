@@ -2,10 +2,12 @@ import { ReactionCode } from './enums/reactionCode';
 
 export default class ElementReaction {
     reactionCode: ReactionCode;
-    quantity: number;
+    count: number;
+    isSelectedByUser: boolean;
 
-    constructor (reactionCode: ReactionCode, quantity: number) {
+    constructor (reactionCode: ReactionCode, count: number, isSelectedByUser: boolean) {
         this.reactionCode = reactionCode;
-        this.quantity = quantity;
+        this.count = count;
+        this.isSelectedByUser = isSelectedByUser;
     }
 }

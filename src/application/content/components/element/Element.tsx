@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import ElementSocialData from '../../../../domain/socialData/socialData.model'; // TODO :: common models package
 import useHover from './useHover';
@@ -13,9 +13,14 @@ const WrappedElement: FC<WrappedElementProps> = ({ element, socialData }) => {
 
   const isActive  = useHover(element);
 
+  useEffect(() => {
+    element.addEventListener('click', e => e.cancelBubble = true);
+  }, [])
+  
+
   const activeWrap = (
     <div className='coolamElement'>
-      <ElementReactions reactionsData={socialData?.reactions || []}/>
+        <ElementReactions element={element} reactionsData={socialData?.reactions || new Map()}/>
     </div>
   );
 

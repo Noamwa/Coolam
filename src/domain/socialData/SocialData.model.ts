@@ -1,8 +1,10 @@
-import Reaction from './elementReaction.model';
+import ElementReaction from './elementReaction.model';
+import { ReactionCode } from './enums/reactionCode';
+
 export default class ElementSocialData {
-    reactions: Array<Reaction>;
+    reactions: Map<ReactionCode, ElementReaction>;
     
-    constructor (reactions: Array<Reaction>) {
+    constructor (reactions: Map<ReactionCode, ElementReaction>) {
         this.reactions = reactions;
     }
 }

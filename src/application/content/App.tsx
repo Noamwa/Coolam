@@ -4,7 +4,7 @@ import WrappedElement from './components/element/Element';
 import SocialData, { ElementHash } from '../../domain/socialData/socialData.model';
 import hash from '../../infrastructure/elementHash';
 import { socialDataRepository } from '../../infrastructure/repositories/index';
-import { store } from "./store";
+import { store } from "./store/element";
 import { getAllELementsToWrap } from '../../domain/element';
 import { getWebsite } from '../../domain/browser';
 
@@ -15,8 +15,8 @@ function App () {
 
   useEffect(() => {
     const wrappedElements = getAllELementsToWrap();
-    const webite = getWebsite();
-    socialDataRepository.getSocialData(webite).then(data => {
+    const website = getWebsite();
+    socialDataRepository.getSocialData(website).then(data => {
       setSocialDataMapping(data);
       setElements(wrappedElements);
     });

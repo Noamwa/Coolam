@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ElementState, ElementDispatcher } from '../../store';
+import { ElementState, ElementDispatcher } from '../../store/element';
 
 function useHover (element: Element) {
     
