@@ -1,9 +1,7 @@
 import React, { FC, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import ElementSocialData from '../../../../domain/socialData/socialData.model'; // TODO :: common models package
 import useHover from './useHover';
 import ElementReactions from '../reactions';
-
 interface WrappedElementProps {
   socialData: ElementSocialData | undefined,
   element: Element
@@ -11,22 +9,17 @@ interface WrappedElementProps {
 
 const WrappedElement: FC<WrappedElementProps> = ({ element, socialData }) => {
 
-  const isActive  = useHover(element);
+  const isActive = useHover(element);
 
   useEffect(() => {
-    element.addEventListener('click', e => e.cancelBubble = true);
+    element.addEventListener('click', e => e.stopPropagation());
   }, [])
-  
 
-  const activeWrap = (
-    <div className='coolamElement'>
-        <ElementReactions element={element} reactionsData={socialData?.reactions || new Map()}/>
-    </div>
-  );
+  const activeWrap = <ElementReactions element={element} reactionsData={socialData?.reactions || new Map()}/>;
 
   const nonActiveWrap = <></>;
 
-  return ReactDOM.createPortal(isActive ? activeWrap : nonActiveWrap, element);
+  return isActive ? activeWrap : nonActiveWrap;
 }
 
 export default WrappedElement;

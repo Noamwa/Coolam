@@ -6,7 +6,6 @@ import ReactionCounterNode from './ReactionCounterNode';
 import { Provider } from 'react-redux';
 import { ReactionStoreProvider } from '../../store/reaction';
 const reactionStoreProvider = new ReactionStoreProvider();
-import './Reactions.css';
 
 interface ElementReactionsProps {
     reactionsData: Map<ReactionCode, ElementReaction>,
@@ -15,7 +14,7 @@ interface ElementReactionsProps {
 
 const supportedReactions: Map<ReactionCode, string> = new Map([
     [ReactionCode.Like, '👍'],
-    [ReactionCode.Dislike, '👎']
+    [ReactionCode.ClickBate, 'ClickBate!']
 ]);
 
 const ElementReactions: FC<ElementReactionsProps> = ({ reactionsData, element }) => {
@@ -23,8 +22,7 @@ const ElementReactions: FC<ElementReactionsProps> = ({ reactionsData, element })
     const [reactionsNodesData, setReactionsNodesData] = useState<Array<ReactionNodeData>>([]);
 
     useEffect(() => {
-        const _reactionsNodesData = Array.from(supportedReactions.entries()).map(([reactionCode, content]) => new ReactionNodeData(reactionCode, reactionsData.get(reactionCode) || getDefaultReaction(reactionCode), content));
-        setReactionsNodesData(_reactionsNodesData);
+        setReactionsNodesData(Array.from(supportedReactions.entries()).map(([reactionCode, content]) => new ReactionNodeData({ reactionCode, elementReaction: reactionsData.get(reactionCode), content })));
     }, []);
 
     return (
@@ -34,10 +32,6 @@ const ElementReactions: FC<ElementReactionsProps> = ({ reactionsData, element })
             </div>
         </Provider>
     );
-}
-
-function getDefaultReaction (reactionCode: ReactionCode): ElementReaction {
-    return new ElementReaction(reactionCode, 0, false);
 }
 
 export default ElementReactions;

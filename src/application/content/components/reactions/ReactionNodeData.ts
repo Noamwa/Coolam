@@ -3,8 +3,8 @@ import { ReactionCode } from '../../../../domain/socialData/enums/reactionCode'
 
 export default class ReactionNodeData extends ElementReaction {
     content: string;
-    constructor (reactionCode: ReactionCode, elementReaction: ElementReaction, content: string) {
-        super(reactionCode, elementReaction.count, elementReaction.isSelectedByUser);
+    constructor ({ reactionCode, elementReaction, content }: any = {}) {
+        super(reactionCode, elementReaction?.count, elementReaction?.isSelectedByUser);
         this.content = content;
     }
 }

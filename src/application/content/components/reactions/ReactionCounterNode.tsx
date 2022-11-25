@@ -15,6 +15,7 @@ const ReactionCounterNode: FC<ReactionCounterNodeProps> = ({ reactionNodeData })
     const [isSelected, setSelected] = useState<boolean>(false);
 
     useEffect(() => {
+        reactionNodeData.count = reactionNodeData.count || 0;
         setSelected(reactionNodeData.reactionCode === activeReactionCode || reactionNodeData.isSelectedByUser);
     }, [])
     

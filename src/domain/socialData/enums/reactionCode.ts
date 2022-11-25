@@ -1,4 +1,5 @@
 export enum ReactionCode {
     Like,
-    Dislike
+    Dislike,
+    ClickBate
 }

@@ -1,31 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import WrappedElement from './components/element/Element';
 import SocialData, { ElementHash } from '../../domain/socialData/socialData.model';
 import hash from '../../infrastructure/elementHash';
 import { socialDataRepository } from '../../infrastructure/repositories/index';
 import { store } from "./store/element";
-import { getAllELementsToWrap } from '../../domain/element';
 import { getWebsite } from '../../domain/browser';
 
-function App () {
+interface AppProps {
+  wrappedElements: Array<Element>
+}
 
-  const [elements, setElements] = useState<Array<Element>>([]);
+const App: FC<AppProps> = ({ wrappedElements }) => {
   const [socialDataMapping, setSocialDataMapping] = useState<Map<ElementHash, SocialData>>(new Map());
 
   useEffect(() => {
-    const wrappedElements = getAllELementsToWrap();
     const website = getWebsite();
     socialDataRepository.getSocialData(website).then(data => {
       setSocialDataMapping(data);
-      setElements(wrappedElements);
     });
   }, []);
 
   return (
     <Provider store={store}>
-      <div className="App">
-        {elements.map((element, i) => <WrappedElement element={element} key={i} socialData={socialDataMapping.get(hash(element))} />)}
+      <div >
+        {wrappedElements.map((element, i) =>
+          <div className="coolamElement" key={i} >
+            {ReactDOM.createPortal(<WrappedElement element={element} socialData={socialDataMapping.get(hash(element))} />, element)}
+          </div>
+        )}
       </div>
     </Provider>
   );
