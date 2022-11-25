@@ -8,18 +8,15 @@ interface WrappedElementProps {
 }
 
 const WrappedElement: FC<WrappedElementProps> = ({ element, socialData }) => {
-
   const isActive = useHover(element);
 
   useEffect(() => {
     element.addEventListener('click', e => e.stopPropagation());
-  }, [])
+  }, []);
 
   const activeWrap = <ElementReactions element={element} reactionsData={socialData?.reactions || new Map()}/>;
 
-  const nonActiveWrap = <></>;
-
-  return isActive ? activeWrap : nonActiveWrap;
+  return isActive ? activeWrap : <></>;
 }
 
 export default WrappedElement;
