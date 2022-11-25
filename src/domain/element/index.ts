@@ -1,36 +1,38 @@
+const wrappedElementClassName = 'coolamWrappedElement';
+const wrapperElementClassName = 'coolamWrapperElement';
+
+function getDocuemntElements () {
+    return [
+        document.querySelectorAll("*[class]"),
+        document.getElementsByTagName("img")
+    ]
+}
+
 export function wrapAllElements (): Array<Element> {
-    const classElemets = Array.from(document.querySelectorAll("*[class]"));
-    const imageElements = Array.from(document.getElementsByTagName("img"));
-    const allElements = [...classElemets, ...imageElements];
-    return allElements;
-    // allElements.forEach(element => (element as HTMLElement).classList.add('coolamWrappedElement'));
-    // const children = allElements.filter(withoutChildren);
-    // const wrappers = wrapAll(children, []);
-    // return wrappers;
+    const allElements = getElementsToWrap();
+    allElements.forEach(element => (element as HTMLElement).classList.add(wrappedElementClassName));
+    const wrappers = wrapRecursive(allElements.filter(withoutChildren), [])
+    return wrappers;
 }
 
-function withoutChildren (element: Element): boolean {
-    return element.getElementsByClassName('coolamWrappedElement').length <= 0;
-}
-
-function wrapAll (elementsToWrap: Array<Element>, alreadyWrapped: Array<Element>): Array<Element> {
+function wrapRecursive (elementsToWrap: Array<Element>, alreadyWrapped: Array<Element>): Array<Element> {
+    let wrappedElements: Array<Element> = [];
     const elementsThatWereNotAlreadyWrapped = elementsToWrap.filter(elementToWrap => !alreadyWrapped.includes(elementToWrap));
-    if (elementsToWrap.length === 0 || elementsThatWereNotAlreadyWrapped.length === 0) {
-        return [];
+    if (elementsThatWereNotAlreadyWrapped.length !== 0) {
+        const newWrapperElements = elementsThatWereNotAlreadyWrapped.map(wrapElement);
+        elementsThatWereNotAlreadyWrapped.forEach(e => alreadyWrapped.push(e));
+        const wrappersParents = [...new Set(elementsToWrap.map(getCoolamWrapperParent).filter(parent => !!parent && !alreadyWrapped.includes(parent)))];
+        const wrappedParents = wrapRecursive(wrappersParents.map(wrapperParent => wrapperParent as Element), alreadyWrapped);
+        wrappedElements = [...newWrapperElements, ...wrappedParents];
     }
-    const newWrapperElements = elementsThatWereNotAlreadyWrapped.map(wrapElement);
-    elementsThatWereNotAlreadyWrapped.forEach(e => alreadyWrapped.push(e));
-    const wrappersParents = [...new Set(elementsToWrap.map(getCoolamWrapperParent).filter(parent => !!parent && !alreadyWrapped.includes(parent)))];
-    const newElementsToWrap = wrappersParents.map(wrapperParent => wrapperParent as Element);
-    const wrappedParents = wrapAll(newElementsToWrap, alreadyWrapped);
-    return [...newWrapperElements, ...wrappedParents];
+    return wrappedElements;
 }
 
 function getCoolamWrapperParent (element: Element): Element | undefined {
     let parent = element.parentNode as Element;
     while (parent) {
         const parentHTMLElement = parent as HTMLElement;
-        if (parentHTMLElement?.classList?.contains('coolamWrappedElement')) {
+        if (parentHTMLElement?.classList?.contains(wrappedElementClassName)) {
             return parent;
         }
         parent = parent.parentNode as Element;
@@ -40,7 +42,7 @@ function getCoolamWrapperParent (element: Element): Element | undefined {
 function wrapElement (element: Element): Element {
     const wrapper = document.createElement('div');
     wrapAround(element, wrapper);
-    wrapper.classList.add('coolamWrapperElement');
+    wrapper.classList.add(wrapperElementClassName);
     return wrapper;
 }
 
@@ -50,4 +52,12 @@ function wrapAround (targetNode: Element, wrapperNode: Element) {
     if (newElement) {
         wrapperNode.appendChild(newElement);
     }
+}
+
+function withoutChildren (element: Element): boolean {
+    return element.getElementsByClassName(wrappedElementClassName).length <= 0;
+}
+
+function getElementsToWrap () {
+    return getDocuemntElements().flatMap(elements => Array.from(elements));
 }

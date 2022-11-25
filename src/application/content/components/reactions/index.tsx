@@ -14,6 +14,7 @@ interface ElementReactionsProps {
 
 const supportedReactions: Map<ReactionCode, string> = new Map([
     [ReactionCode.Like, '👍'],
+    [ReactionCode.Dislike, '👎'],
     [ReactionCode.ClickBate, 'ClickBate!']
 ]);
 
