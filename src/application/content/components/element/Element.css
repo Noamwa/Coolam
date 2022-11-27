@@ -1,2 +1,4 @@
 .coolamElement {
+    position: absolute;
+    z-index: 999
 }

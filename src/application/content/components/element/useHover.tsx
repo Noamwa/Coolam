@@ -43,7 +43,11 @@ function useHover (element: Element) {
         elementDispatcher.dispatchActiveElement(null);
     }
 
-    return isActive;
+    function onWrapperMouseOver (element: HTMLElement) {
+        onElementHover(element);
+    }
+
+    return {isActive, onWrapperMouseOver};
 }
 
 export default useHover;

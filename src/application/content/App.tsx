@@ -27,7 +27,7 @@ const App: FC<AppProps> = ({ wrappedElements }) => {
       <div >
         {wrappedElements.map((element, i) =>
           <div className="coolamElement" key={i} >
-            {ReactDOM.createPortal(<WrappedElement element={element} socialData={socialDataMapping.get(hash(element))} />, element)}
+            <WrappedElement element={element} socialData={socialDataMapping.get(hash(element))} />
           </div>
         )}
       </div>

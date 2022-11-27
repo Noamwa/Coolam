@@ -11,8 +11,9 @@ function getDocuemntElements () {
 export function wrapAllElements (): Array<Element> {
     const allElements = getElementsToWrap();
     allElements.forEach(element => (element as HTMLElement).classList.add(wrappedElementClassName));
-    const wrappers = wrapRecursive(allElements.filter(withoutChildren), [])
-    return wrappers;
+    // const wrappers = wrapRecursive(allElements.filter(withoutChildren), []);
+    return allElements;
+    //return wrappers;
 }
 
 function wrapRecursive (elementsToWrap: Array<Element>, alreadyWrapped: Array<Element>): Array<Element> {
