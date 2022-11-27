@@ -13,10 +13,10 @@ interface WrappedElementProps {
 const WrappedElement: FC<WrappedElementProps> = ({ element, socialData }) => {
 
   const { isActive, onWrapperMouseOver } = useHover(element);
-  const positionStyle = usePosition(element, isActive);
+  const position = usePosition(element, isActive);
 
   const activeWrap = 
-  <div onMouseOver={() => onWrapperMouseOver(element as HTMLElement)} className='coolamElement' style={positionStyle}>
+  <div style={{...position} as any} onMouseOver={() => onWrapperMouseOver(element as HTMLElement)} className='coolamElement'>
     <ElementReactions element={element} reactionsData={socialData?.reactions || new Map()}/>
   </div>
 
