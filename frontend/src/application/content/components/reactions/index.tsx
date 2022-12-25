@@ -1,37 +1,41 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import ElementReaction from '../../../../domain/socialData/elementReaction.model';
-import { ReactionCode } from '../../../../domain/socialData/enums/reactionCode';
-import ReactionNodeData from './ReactionNodeData';
-import ReactionCounterNode from './ReactionCounterNode';
-import { Provider } from 'react-redux';
-import { ReactionStoreProvider } from '../../store/reaction';
-const reactionStoreProvider = new ReactionStoreProvider();
+import ReactionNode from './ReactionNode';
+import CoolamReactionPicker from './CoolamReactionPicker';
+import { Box } from '@mui/material';
 
 interface ElementReactionsProps {
-    reactionsData: Map<ReactionCode, ElementReaction>,
-    element: Element
+    reactionsData: Array<ElementReaction>
 }
 
-const supportedReactions: Map<ReactionCode, string> = new Map([
-    [ReactionCode.Like, '👍'],
-    [ReactionCode.Dislike, '👎'],
-    [ReactionCode.ClickBate, 'ClickBate!']
-]);
+const ElementReactions: FC<ElementReactionsProps> = ({ reactionsData }) => {
 
-const ElementReactions: FC<ElementReactionsProps> = ({ reactionsData, element }) => {
+    const [reactionsDataState, setReactionsDataState] = useState<Array<ElementReaction>>(reactionsData);
 
-    const [reactionsNodesData, setReactionsNodesData] = useState<Array<ReactionNodeData>>([]);
-
-    useEffect(() => {
-        setReactionsNodesData(Array.from(supportedReactions.entries()).map(([reactionCode, content]) => new ReactionNodeData({ reactionCode, elementReaction: reactionsData.get(reactionCode), content })));
-    }, []);
+    function onReactionPick({ code, emoji }: { code: string, emoji: string }) {
+        let existingReactionData = reactionsDataState.find(({ reactionCode }) => reactionCode === code);
+        if (!existingReactionData) {
+            existingReactionData = new ElementReaction(code, emoji);
+            reactionsDataState.push(existingReactionData);
+        }
+        if (!existingReactionData.isSelectedByUser) {
+            existingReactionData.isSelectedByUser = true;
+            existingReactionData.count = existingReactionData.count + 1;
+        } else {
+            existingReactionData.isSelectedByUser = false;
+            existingReactionData.count = existingReactionData.count - 1;
+        }
+        setReactionsDataState([...reactionsDataState]);
+    }
 
     return (
-        <Provider store={reactionStoreProvider.getReactionStoreForElement(element)}>
-            <div className='coolamReactionsContainer'>
-                {reactionsNodesData.map((reactionNodeData, i) => <ReactionCounterNode key={i} reactionNodeData={reactionNodeData} />)}
-            </div>
-        </Provider>
+        <Box className='coolamReactionsContainer'>
+            <CoolamReactionPicker onReactionPick={onReactionPick} />
+            {reactionsDataState
+                .filter(reaction => reaction.count !== 0)
+                .map((reaction, i) => <ReactionNode onReactionPick={onReactionPick} key={i} reaction={reaction} />)
+            }
+        </Box>
     );
 }
 

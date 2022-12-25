@@ -9,8 +9,14 @@ function useHover (element: Element) {
     const { element: activeElement } = useSelector<ElementState, ElementState>((state: ElementState) => ({ element: state.element }));
 
     useEffect(() => {
-        element.addEventListener('mouseenter', () => { onElementHover(element as HTMLElement); });
-        element.addEventListener('mouseleave', onElementUnHover)
+        const mouseEnterEventListener = () => onElementHover(element as HTMLElement);
+        const mouseLeaveEventListener = onElementUnHover;
+        element.addEventListener('mouseenter', mouseEnterEventListener);
+        element.addEventListener('mouseleave', mouseLeaveEventListener);
+        return () => {
+            element.removeEventListener('mouseenter', mouseEnterEventListener);
+            element.removeEventListener('mouseleave', mouseLeaveEventListener);
+        };
     }, []);
 
     useEffect(() => { 
@@ -47,7 +53,7 @@ function useHover (element: Element) {
         onElementHover(element);
     }
 
-    return {isActive, onWrapperMouseOver};
+    return { isActive, onWrapperMouseOver };
 }
 
 export default useHover;

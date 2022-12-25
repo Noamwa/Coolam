@@ -1,6 +1,4 @@
 .coolamReactionsContainer {
-    border-radius: 5px;
-    border: 2px solid grey;
     width: min(200px, 100%);
     height: 20px;
     display: flex;
@@ -9,9 +7,9 @@
 .coolamReaction {
     border-radius: 5px;
     border: 2px solid grey;
+    background-color: lightgrey;
     width: auto;
-    height: 100%;
-    padding: 1%;
+    height: 90%;
     display: flex;
     text-align: justify;
 }

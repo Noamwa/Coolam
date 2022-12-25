@@ -18,12 +18,7 @@ function getSelfPosition (element: HTMLElement): PositionStyle {
   scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
   scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   const { direction } = getComputedStyle(element);
-  let offset = rect.width / 2;
-  // if (direction === 'ltr') {
-  //   offset = 0;
-  // } else if (direction === 'rtl') {
-  //   offset = offset * 2;
-  // }
+  const offset = rect.width * 0.9;
   return { top: rect.top + rect.height + scrollTop, left: rect.left + offset + scrollLeft, direction };
 }
 

@@ -1,13 +1,14 @@
-import { ReactionCode } from './enums/reactionCode';
 
 export default class ElementReaction {
-    reactionCode: ReactionCode;
     count: number;
     isSelectedByUser: boolean;
+    reactionCode: string;
+    emoji: string;
 
-    constructor (reactionCode: ReactionCode, count: number, isSelectedByUser: boolean) {
+    constructor (reactionCode: string, emoji: string, count: number = 0, isSelectedByUser: boolean = false) {
         this.reactionCode = reactionCode;
         this.count = count;
         this.isSelectedByUser = isSelectedByUser;
+        this.emoji = emoji;
     }
 }

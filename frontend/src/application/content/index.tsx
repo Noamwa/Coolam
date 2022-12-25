@@ -13,4 +13,10 @@ if (body) {
   body.prepend(app);
 }
 
-ReactDOM.createRoot(document.getElementById('coolamRoot') as Element).render(<App wrappedElements={wrappedElements}/>);
+const root = ReactDOM.createRoot(document.getElementById(app.id) as Element);
+
+chrome.runtime.onMessage.addListener((request, sender) => {
+  if (request.message === 'complete') {
+    root.render(<App wrappedElements={wrappedElements} />);
+  }
+});
